@@ -1,3 +1,17 @@
-import { test } from 'vitest'
+import { test, beforeAll, afterAll } from 'vitest'
+import request from 'supertest'
+import { app } from '../src/app'
 
-test('consegue criar uma new transaction', () => {})
+beforeAll(async () => {
+  await app.ready()
+})
+afterAll(async () => {
+  await app.ready()
+})
+test('user can create a new transaction', async () => {
+  await request(app.server).post('/transactions').send({
+    title: 'New transaction',
+    amount: 5000,
+    type: 'credit',
+  })
+})
